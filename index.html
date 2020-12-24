@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h2 {
+            color: #33ff00;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>123</h2>
+
+    <div class="info">gsdfgsdfgsdfgsdf</div>
+    <div class="info">1323123eqwd132</div>
+    <script>
+        let div = document.getElementsByClassName('info');
+        console.log(div);
+        let display = '';
+        display = "<h1>Hello</h1>";
+        display += "<h1>World</h1>"
+        for (let i = 0; i < div.length; i++) {
+            div[i].innerHTML = display
+        }
+
+        console.log('innerHTML', div[0].innerHTML)
+
+
+        let a;
+        console.log('a', a);
+        console.log('type', typeof a);
+
+        a = null;
+        console.log('a', a);
+        console.log('type', typeof a);
+
+        a = [];
+        console.log('a', a);
+        console.log('type', typeof a);
+
+        a = { diction: 12, key: 'value' };
+        console.log('a', a);
+        console.log('type', typeof a);
+
+        a = "a" * 2;
+        console.log('a', a);
+        console.log('type', typeof a);
+
+
+    </script>
+
+    <script>
+        if (5 > 8) {
+            console.log('a');
+        } else {
+            console.log('b');
+        }
+        let yourScore = 5
+        let others = 8
+
+        yourScore++
+        yourScore++
+        yourScore++
+        yourScore++
+
+        let result = (yourScore > others) ? 'Win' : 'Lose';
+        div[0].innerHTML = result;
+    </script>
+
+</body>
+
+</html>

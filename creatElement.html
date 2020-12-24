@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #rect {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            background-color: #b0e9ff;
+        }
+
+        .ball {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: #ff2f27;
+            border-radius: 50%;
+            color: white;
+            line-height: 40px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="rect"></div>
+
+    <script>
+        const rect = document.querySelector('#rect');
+
+        const array1 = [1, 2, 3, 4];
+        let accumulator;
+
+        for(let i = 0; i < array1.length; i++) {
+            
+        }
+        const reducer = function (accumulator, currentValue) {
+            console.log(accumulator);
+            return accumulator * currentValue;
+        }
+        // 1 + 2 + 3 + 4
+        console.log(array1.reduce(reducer));
+
+
+    </script>
+
+
+</body>
+
+</html>

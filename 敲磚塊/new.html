@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- https://lihi1.com/Tjcku -->
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>game</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+        }
+
+        .box {
+            height: 600px;
+            width: 610px;
+            border: 1px solid #fff;
+            margin: 10px auto;
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+        }
+
+        .brick {
+            width: 90px;
+            height: 15px;
+            margin: 5px;
+            margin-right: 5px;
+            background-color: transparent;
+            outline: 1px solid #fff;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            pointer-events: none;
+            background-color: lightpink;
+        }
+
+        .ball {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #fff;
+            position: absolute;
+            left: 300px;
+            top: 560px;
+
+        }
+
+        .bat {
+            width: 100px;
+            height: 10px;
+            background-color: #fff;
+            position: absolute;
+            bottom: 0;
+            left: 250px;
+        }
+
+        .score {
+            position: absolute;
+            bottom: 100px;
+            right: -200px;
+            /* color: #fff;
+        font-size: 4rem;
+        font-family: 'Playfair Display', serif; */
+        }
+
+        span {
+            color: #fff;
+            font-size: 4rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .wrap {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 100px auto;
+        }
+
+        #pauseBtn {
+            width: fit-content;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <button id="pauseBtn" onclick="pauseGame();">
+            <h1>Play</h1>
+        </button>
+        <div class="box">
+            <div class="moveArea"></div>
+        </div>
+
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+    <script>
+        let ball
+        let bat
+        let bricks
+        let brick
+        let speedX;
+        let speedY, score, isRolling;
+
+        const brickPosition = () => {
+            bricks.forEach(function (element) {
+                // console.log(element);
+                element.style.left = element.offsetLeft + 'px';
+                element.style.top = element.offsetTop + 'px';
+                element.addEventListener('mousemove', mouseMoving);
+            })
+        }
+
+        const brickStay = () => {
+            bricks.forEach(function (element) {
+                element.style.position = 'absolute';
+            })
+        }
+
+        const init = () => {
+            let box = document.querySelector('.box');
+            box.innerHTML = '';
+
+            let display = `<div class="score"><span class="score1">0</span></div>`;
+            for (let i = 0; i < 60; i++) {
+                display += `<div class="brick"></div>`;
+            }
+
+            display += `<div class="ball"></div><div class="bat"></div>`;
+
+            box.innerHTML = display;
+
+            ball = document.querySelector('.ball');
+            bat = document.querySelector('.bat');
+            bricks = [...document.querySelectorAll('.brick')];
+
+            speedX = parseInt(Math.random() * 1) + 3;
+            speedY = parseInt(Math.random() * 1) - 10;
+
+            score = 0;
+
+            brickPosition();
+            brickStay();
+        }
+
+        init();
+
+        const touch = (node1, node2) => {
+            let l1 = node1.offsetLeft;
+            let r1 = node1.offsetLeft + node1.offsetWidth;
+            let t1 = node1.offsetTop;
+            let b1 = node1.offsetTop + node1.offsetHeight;
+
+            let l2 = node2.offsetLeft;
+            let r2 = node2.offsetLeft + node2.offsetWidth;
+            let t2 = node2.offsetTop;
+            let b2 = node2.offsetTop + node2.offsetHeight;
+
+            if (l2 > r1 || r2 < l1 || t2 > b1 || b2 < t1) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        const ballRolling = () => {
+            isRolling = setInterval(function () {
+                let ball = document.querySelector('.ball');
+                ball.style.left = ball.offsetLeft + speedX + 'px';
+                // $(".ball").css("left", "300px");
+
+                // console.log('ball js postion clientLeft', ball.clientLeft);
+                // console.log('ball js postion offsetLeft', ball.offsetLeft);
+                // console.log('ball js postion JQ left', $('.ball').position().left);
+
+                // $(".ball").css("left", $('.ball').position().left + speedX + "px");
+                $(".ball").css("top", $('.ball').position().top + speedY + "px");
+
+                if (parseInt(ball.style.left) <= 0 || parseInt(ball.style.left) >= 590) {
+                    speedX *= -1
+                }
+
+                if (parseInt(ball.style.top) <= 0) {
+                    speedY *= -1
+                }
+
+                if (parseInt(ball.style.top) >= 572) {
+                    gameover();
+                }
+
+                if (touch(ball, bat)) speedY *= -1;
+
+                for (let i = 0; i < bricks.length; i++) {
+                    if (touch(bricks[i], ball)) {
+                        console.log("touch")
+                        speedY *= -1;
+                        // $('.score1').html(score++)
+                        let scoreDom = document.querySelector('.score1');
+                        scoreDom.innerHTML = ++score;
+
+                        let box = document.querySelector('.box');
+                        box.removeChild(bricks[i]);
+                        break;
+                    }
+                }
+            }, 40)
+        }
+
+        // ballRolling();
+
+        let box = document.querySelector('.box');
+        box.addEventListener('mousemove', mouseMoving);
+        ball.addEventListener('mousemove', mouseMoving);
+
+        function mouseMoving(e) {
+
+            console.log('mousemove', e.offsetX);
+            let batLeft = e.offsetX;
+            if (batLeft > 500) batLeft = 500;
+            document.querySelector('.bat').style.left = batLeft + 'px';
+
+        }
+        document.addEventListener('keydown', batMove);
+
+        function batMove(e) {
+
+            console.log(e.keyCode);
+            let bat = document.querySelector('.bat');
+            let batLeft = bat.offsetLeft;
+
+            if (e.keyCode === 37) {
+                bat.style.left = bat.offsetLeft - 10 + 'px';
+                if (batLeft <= 0) bat.style.left = 0;
+            }
+            else if (e.keyCode === 39) {
+
+            }
+
+        }
+
+        function gameover() {
+            let playAgain = confirm('play again');
+            if (playAgain) {
+                console.log('play again');
+                init();
+            }
+            else {
+                console.log('no more paly again.')
+            }
+        }
+
+        function pauseGame() {
+            if (isRolling) {
+                clearInterval(isRolling);
+                isRolling = false;
+                document.querySelector('#pauseBtn').innerHTML = '<h1>Play</h1>';
+            }
+            else {
+                ballRolling();
+                document.querySelector('#pauseBtn').innerHTML = '<h1>Pause</h1>';
+            }
+        }
+
+    </script>
+</body>
+
+</html>

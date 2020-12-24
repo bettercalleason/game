@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>back tik</title>
+</head>
+<div id="wrap">
+    <p class="root"></p>
+    <p class="root"></p>
+</div>
+
+<button>click</button>
+
+<body>
+    <script>
+        let username = 'John';
+        let userHP = 100;
+        let string = `Name:${username}, HP:${userHP}`;
+        let string2 = `回到引發資源臨床本帖友情連結股票，
+        ${username}
+        領先化學當年一流提供教授你想機票保存環境實行或許廣泛婚姻，
+        用戶名辦法避免專用具備看來反應玻璃所在地責任編輯由於，
+        就不呵呵引發世界盃，也沒部分權益創造政策加入一名用於日韓本網站，
+        成立對於消費發表日本能在回家幸福還是湖北，只。`
+        console.log(string2);
+        let a = document.querySelector('.root').innerHTML = string2;
+
+        let btn = document.querySelector('button');
+        btn.addEventListener('click', function () {
+            let wrap = document.querySelector('#wrap');
+
+            let newRoot = document.createElement('p');
+            newRoot.className = 'root';
+
+            wrap.appendChild(newRoot);
+        })
+    </script>
+
+</body>
+
+</html>
